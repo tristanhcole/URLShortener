@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect, make_response, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 import os
@@ -21,14 +21,20 @@ def generate_shortlink(slug, dest):
             db.session.add(link)
             db.session.flush()
 
-            response = {'slug': link.slug, 'dest': link.dest}
-            return response, 200
+            response_object = dict(slug=str(link.slug), dest=str(link.dest))
+            return response_object, 200
 
-        except IntegrityError as e:
+        except (IntegrityError, InvalidSlug, InvalidDest) as e:
+            if InvalidSlug or InvalidDest:
+                response_object = dict(message=str(e))
+                return response_object, 400
+
             from psycopg2 import errors
             db.session.rollback()
+
             if isinstance(e.orig, errors.UniqueViolation) and slug:
-                return 'Slug already exists', 409
+                response_object = dict(message='Slug already exists')
+                return response_object, 409
             pass
 
 
@@ -44,7 +50,7 @@ def slug(slug):
 
     link = db.session.query(ShortLink).filter_by(slug=slug).first()
     if link is not None:
-        return link.dest
+        return redirect(link.dest)
 
     return f"Destination not found for {slug}"
 
@@ -55,16 +61,13 @@ def shortlink():
 
     slug = data.get('slug')
     dest = data.get('dest')
-    if dest:
-        response, status_code = generate_shortlink(slug=slug, dest=dest)
 
-        if status_code == 200:
-            db.session.commit()
+    response_object, status_code = generate_shortlink(slug=slug, dest=dest)
 
-        return response, status_code
+    if status_code == 200:
+        db.session.commit()
 
-    else:
-        return 'Must provide destination url'
+    return make_response(jsonify(response_object)), status_code
 
 
 if __name__ == "__main__":

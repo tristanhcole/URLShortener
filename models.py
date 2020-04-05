@@ -1,7 +1,9 @@
 import datetime
 from app import db
-from utils import encode, decode
+from utils import encode, decode, validate_dest, validate_slug
+from exceptions import InvalidDest, InvalidSlug
 from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.schema import Sequence
 
 
@@ -17,10 +19,37 @@ class Base(db.Model):
 
 
 class ShortLink(Base):
-    slug = db.Column(db.String, unique=True, index=True, nullable=False)
-    dest = db.Column(db.String)
+    _slug = db.Column(db.String, unique=True, index=True, nullable=False)
+    _dest = db.Column(db.String, nullable=False)
+
+    @hybrid_property
+    def slug(self):
+        return self._slug
+
+    @slug.setter
+    def slug(self, val):
+        try:
+            self._slug = validate_slug(val)
+        except InvalidSlug as e:
+            raise e
+
+    @hybrid_property
+    def dest(self):
+        return self._dest
+
+    @dest.setter
+    def dest(self, val):
+        try:
+            self._dest = validate_dest(val)
+        except InvalidDest as e:
+            raise e
 
     def __init__(self, **kwargs):
+        # First, validate user inputs
+        self.slug = kwargs.get('slug')
+        self.dest = kwargs.get('dest')
+
+        # Next, generate unique slug OR unique id
         if kwargs.get('slug') is None:
             current_random_slug_id = db.session.execute(Sequence("shortlink_id_seq"))
             kwargs['id'] = current_random_slug_id

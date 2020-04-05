@@ -1,3 +1,6 @@
+import re
+from exceptions import InvalidSlug, InvalidDest
+
 BASE62 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
 
@@ -28,3 +31,41 @@ def encode(num, base=BASE62):
         return base[num]
     else:
         return encode(num // base_len, base) + base[num % base_len]
+
+
+def validate_slug(slug):
+    """
+    Validates slug is valid.
+    :param slug: Must be part of BASE62 or SPECIAL_CHARS
+    :return: slug or raise exception
+    """
+    if slug is None:
+        return None
+    regex = re.compile(r'[a-zA-Z0-9.+!*()_$-]+')
+    if re.match(regex, slug) is not None:
+        return slug
+    else:
+        raise InvalidSlug('Slug Provided is invalid')
+
+
+def validate_dest(dest):
+    """
+    Validates dest are valid URLs.
+    :param dest: google.com
+    :return: dest or raise exception
+    """
+    if dest is None:
+        raise InvalidDest('Destination URL provided must not be None')
+
+    regex = re.compile(
+        r'^(?:http|ftp)s?://'  # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+        r'localhost|'  # localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
+        r'(?::\d+)?'  # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+
+    if re.match(regex, dest) is not None:
+        return dest
+    else:
+        raise InvalidDest('Destination URL provided is invalid')
