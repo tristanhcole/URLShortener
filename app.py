@@ -1,7 +1,7 @@
-from flask import Flask, request, redirect, make_response, jsonify
+from flask import Flask, request, redirect, make_response, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
-import os
+import os, time
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -40,7 +40,12 @@ def generate_shortlink(slug, dest):
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return render_template('index.html')
+
+
+@app.route('/time')
+def get_current_time():
+    return {'time': time.time()}
 
 
 @app.route('/<string:slug>', methods=['GET'])
@@ -52,7 +57,8 @@ def slug(slug):
     if link is not None:
         return redirect(link.dest)
 
-    return f"Destination not found for {slug}"
+
+    return f"Destination not found for {slug}", 404
 
 
 @app.route('/api/v1/shortlink', methods=['POST'])
