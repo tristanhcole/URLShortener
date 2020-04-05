@@ -14,7 +14,7 @@ class Base(db.Model):
     def __tablename__(cls):
         return cls.__name__.lower()
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.BigInteger, primary_key=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 

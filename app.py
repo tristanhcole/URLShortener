@@ -25,7 +25,7 @@ def generate_shortlink(slug, dest):
             return response_object, 200
 
         except (IntegrityError, InvalidSlug, InvalidDest) as e:
-            if InvalidSlug or InvalidDest:
+            if isinstance(e, InvalidSlug) or isinstance(e, InvalidDest):
                 response_object = dict(message=str(e))
                 return response_object, 400
 

@@ -41,7 +41,7 @@ def validate_slug(slug):
     """
     if slug is None:
         return None
-    regex = re.compile(r'[a-zA-Z0-9.+!*()_$-]+')
+    regex = re.compile(r'[a-zA-Z0-9]+')
     if re.match(regex, slug) is not None:
         return slug
     else:
