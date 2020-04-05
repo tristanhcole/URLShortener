@@ -67,5 +67,11 @@ def validate_dest(dest):
 
     if re.match(regex, dest) is not None:
         return dest
+
+    # try add scheme to dest
+    new_dest = 'https://'+dest
+    if re.match(regex, new_dest) is not None:
+        return new_dest
+
     else:
         raise InvalidDest('Destination URL provided is invalid')

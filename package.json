@@ -6,11 +6,11 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "babel-core": "^6.26.3",
     "bulma": "^0.8.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
