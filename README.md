@@ -15,8 +15,11 @@ Todo:
 - Create database
 ``urlshortener``
 
-- Run migrations
-``python manage.py db upgrade``
+- Run migrations and start
+``python manage.py db upgrade && python app.py``
+
+- Install frontend and run
+``npm i && npm run dev``
 
 ### How it works
 ##### [POST] Creating a new shortlink
@@ -38,4 +41,4 @@ This ensures that the links are fast to create, unique, short and we can store a
 
 Currently a 62 alphabet is used, meaning with a 7 character slug there are ~5 trillion unique combinations.
 
-Built with Flask and Python
+Built with Flask, Python and React
