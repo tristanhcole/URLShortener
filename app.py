@@ -1,14 +1,15 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-
+import os
 
 app = Flask(__name__)
-# app.config.from_object('config')
-# db = SQLAlchemy(app)
+app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-# todo: setup DynamoDB
+# from models import ShortLink
+
 demo_data = {'asdf': 'http://google.com/'}
-DB = None
 current_random_slug_id = 1
 
 BASE62 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
