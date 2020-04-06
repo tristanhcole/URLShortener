@@ -8,7 +8,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import *
+from server.models import *
 
 
 def generate_shortlink(slug, dest):
@@ -21,7 +21,7 @@ def generate_shortlink(slug, dest):
             db.session.add(link)
             db.session.flush()
 
-            response_object = dict(slug=str(link.slug), dest=str(link.dest))
+            response_object = dict(link=str(link.link), dest=str(link.dest))
             return response_object, 200
 
         except (IntegrityError, InvalidSlug, InvalidDest) as e:

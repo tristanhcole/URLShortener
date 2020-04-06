@@ -1,12 +1,7 @@
 # URLShortener
 ![GitHub](https://img.shields.io/github/license/tristanhcole/URLShortener)
 
-Python URL Shortener
-
-Todo:
-- React front end
-- Handle unusual, but valid path characters .+!*()_$-
-- backend tests
+A fast, simple and scalable Python + Flask URL Shortener
 
 ### Setup
 - Install python requirements

@@ -1,5 +1,5 @@
 import pytest
-from utils import *
+from server.utils import *
 
 
 def test_decode():

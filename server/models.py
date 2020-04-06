@@ -1,7 +1,7 @@
-import datetime
-from app import db
-from utils import encode, decode, validate_dest, validate_slug
-from exceptions import InvalidDest, InvalidSlug
+import datetime, os
+from server.app import db
+from server.utils import encode, decode, validate_dest, validate_slug
+from server.exceptions import InvalidDest, InvalidSlug
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.schema import Sequence
@@ -21,6 +21,10 @@ class Base(db.Model):
 class ShortLink(Base):
     _slug = db.Column(db.String, unique=True, index=True, nullable=False)
     _dest = db.Column(db.String, nullable=False)
+
+    @hybrid_property
+    def link(self):
+        return os.environ['HOST'] + self.slug
 
     @hybrid_property
     def slug(self):

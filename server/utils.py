@@ -1,5 +1,5 @@
 import re
-from exceptions import InvalidSlug, InvalidDest
+from server.exceptions import InvalidSlug, InvalidDest
 
 BASE62 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 

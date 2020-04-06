@@ -6,7 +6,7 @@ export default class LinkShortener extends React.Component {
     this.state = {
       date: new Date(),
       value: '',
-      slug: '',
+      link: '',
       loading: false,
       error: false,
     };
@@ -47,7 +47,7 @@ export default class LinkShortener extends React.Component {
         .then(data => {
           this.setState({
             loading: false,
-            slug: data.slug,
+            link: data.link,
             message: data.message
           })
         })
@@ -56,7 +56,7 @@ export default class LinkShortener extends React.Component {
 
   render() {
 
-    let message = this.state.error ? this.state.message : this.state.slug;
+    let message = this.state.error ? this.state.message : this.state.link;
     return (
       <section className="hero is-fullheight">
         <div className="hero-body">
