@@ -1,4 +1,5 @@
 # URLShortener
+![CircleCI](https://img.shields.io/circleci/build/github/tristanhcole/URLShortener)
 ![GitHub](https://img.shields.io/github/license/tristanhcole/URLShortener)
 ![Codecov](https://img.shields.io/codecov/c/github/tristanhcole/URLShortener)
 
