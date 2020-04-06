@@ -1,5 +1,6 @@
 # URLShortener
 ![GitHub](https://img.shields.io/github/license/tristanhcole/URLShortener)
+![Codecov](https://img.shields.io/codecov/c/github/tristanhcole/URLShortener)
 
 A fast, simple and scalable Python + Flask URL Shortener
 
