@@ -13,7 +13,7 @@ jobs:
       - python/save-cache
       - run: sudo pip install pytest
       - run:
-          command: cd server && pytest --cov server test_utils.py
+          command: cd server && pytest --cov server test_utils.py --cov-report xml
           name: Test
       - run:
           command: bash <(curl -s https://codecov.io/bash)
