@@ -28,7 +28,7 @@ Body:
 Optional: Provide a custom slug
 
 ##### [GET] Redirection
-GET ``http://127.0.0.1:5000/$SLUG``
+``http://127.0.0.1:5000/$SLUG``
 
 Returns a 302 redirection.
 
